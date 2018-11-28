@@ -1,0 +1,56 @@
+$vpminw-mdrnmbl: 480px;
+$vpminw-tablet: 600px;
+$vpminw-desktop: 900px;
+$vpminw-lrgscrn: 1280px;
+
+$header-text: "Fira Sans", sans-serif;
+$body-text: "Merriweather", serif;
+
+:root {
+  --pg-title: #fff;
+}
+
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.4rem;
+  font-family: $body-text;
+}
+
+p {
+  margin: 0;
+}
+
+.wrapper {
+  padding: 20px 10px;
+}
+
+@media (min-width: $vpminw-mdrnmbl) {
+
+}
+
+@media (min-width: $vpminw-tablet) {
+  body {
+    font-size: 1.6rem;
+  }
+}
+
+@media (min-width: $vpminw-desktop) {
+  body {
+    font-size: 1.8rem;
+  }
+  
+  .wrapper {
+    padding: 25px 40px;
+  }
+}
+
+@media (min-width: $vpminw-lrgscrn) {
+  .wrapper {
+    max-width: $vpminw-lrgscrn;
+    margin: 0 auto;
+  }
+}

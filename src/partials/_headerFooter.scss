@@ -11,7 +11,20 @@
   }
 
   & .banner-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     background: url(https://source.unsplash.com/random) center center / cover no-repeat;
+
+    & .title {
+      color: var(--pg-title);
+      font-family: $header-text;
+    }
   }
+}
+
+footer {
+  background: #2c2c2c;
+  color: #fff;
 }
