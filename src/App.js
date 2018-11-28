@@ -14,14 +14,14 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      
+      breadcrumbs: ["Top","Home",["Blogs","Obidos","Porto","Lisbon"],"About","Contact"]
     };
   }
 
   render() {
     return (
       <div className="App">
-        <Header />
+        <Header breadcrumbs={this.state.breadcrumbs} />
         <Home />
         <Footer />
       </div>
