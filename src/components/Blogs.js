@@ -15,13 +15,9 @@ const dbRefBlogs = firebase.database().ref("/blogs");
 
 class BlogList extends Component {
   drawList = listOfPosts => {
-    console.log("Here's drawList");
-    console.log(Object.entries(listOfPosts));
-    Object.entries(listOfPosts).map(post => {
-      console.log("I'm RUNNING the draw map now")
+    return Object.entries(listOfPosts).map(post => {
       return (
         <li className="blog-list__item">
-          {console.log(post[1].title)}
           <span className="blog-list__item__info">
             {post[1].title}
           </span>
@@ -50,7 +46,6 @@ class BlogList extends Component {
               onClick={() => alert("You sure you want to delete this post?")}
             ><FontAwesomeIcon icon="trash-alt" /></a>
           </span>
-          {console.log("FINISH THE DRAW")}
         </li>
       )
     })
@@ -68,9 +63,7 @@ class BlogList extends Component {
           <li className="list-header__item list-header__item--button">Delete</li>
         </ul>
         <ul className="blog-list">
-          {console.log("I'M DRAWING")}
-          { console.log(this.props.blogDB) }
-          {this.props.blogDB ? this.drawList(this.props.blogDB) : console.log("No blogs exist") }
+          {this.props.blogDB ? this.drawList(this.props.blogDB) : console.log("No blogs exist")}
         </ul>
       </main>
     )
@@ -103,8 +96,6 @@ class Blogs extends Component {
       this.setState({
         blogDB: snapValue
       })
-      console.log("I'M IN THE ONE TIME PULL OF THE DB")
-      console.log(this.state.blogDB);
     });
 
 
@@ -144,7 +135,6 @@ class Blogs extends Component {
   
   componentDidMount() {
     dbRefBlogs.on("value", snapshot => {
-      console.log("I mounted");
       this.setState({
         blogDB: snapshot.val()
       })
@@ -155,7 +145,6 @@ class Blogs extends Component {
     return (
       <div className="page">
         <Header title={"Blogs"} breadcrumbs={["top", "home", "blogs"]} />
-        {console.log(this.state.blogDB)}
         <BlogList blogDB={this.state.blogDB} />
         <button
           id="btn-new"
