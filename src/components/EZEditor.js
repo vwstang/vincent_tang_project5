@@ -31,7 +31,6 @@ class Editor extends Component {
   componentDidMount() {
     db.ref("/blogs").on("value", snapshot => {
       const blogDB = snapshot.val();
-      console.log(this.props.match.params.postID);
       this.setState({
         currTitle: blogDB[this.props.match.params.postID].title,
         currDraft: blogDB[this.props.match.params.postID].draft

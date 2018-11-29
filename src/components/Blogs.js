@@ -22,7 +22,7 @@ class BlogList extends Component {
             {post[1].title}
           </span>
           <span className="blog-list__item__info blog-list__item__info--snippet">
-            {post[1].draft.join(" ").slice(0, 50)}
+            {post[1].draft.join(" ").slice(0, 100)}
           </span>
           <span className="blog-list__item__info">
             {post[1].published ? "Published" : "Draft"}
