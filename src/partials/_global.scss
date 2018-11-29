@@ -6,8 +6,12 @@ $vpminw-lrgscrn: 1280px;
 $header-text: "Fira Sans", sans-serif;
 $body-text: "Merriweather", serif;
 
+$button-hover-transitions: border 0.2s, color 0.2s;
+
 :root {
   --pg-title: #fff;
+  --link-hover: steelblue;
+  --btn-hover: var(--link-hover);
 }
 
 
@@ -20,8 +24,32 @@ body {
   font-family: $body-text;
 }
 
+main {
+  flex-grow: 1;
+  min-height: 100%;
+}
+
 p {
   margin: 0;
+}
+
+button {
+  border: 1px solid black;
+  background: none;
+  padding: 10px 20px;
+  transition: $button-hover-transitions;
+
+  &:hover {
+    border: 1px solid var(--btn-hover);
+    color: var(--btn-hover);
+    transition: $button-hover-transitions;
+  }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .wrapper {

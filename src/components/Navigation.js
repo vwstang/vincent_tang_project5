@@ -6,16 +6,20 @@ class Crumbs extends Component {
       <ul className={this.props.menulevel}>
         {
           this.props.breadcrumbs.slice(1).map(crumb => {
-            console.log(crumb, typeof crumb);
+            // console.log(crumb, typeof crumb);
             if (typeof crumb === "object") {
               return (
-                <li>
-                  {crumb[0]}
+                <li className="menu-item">
+                  <a className="menu-link" href={crumb[0]}>{crumb[0]}</a>
                   <Crumbs breadcrumbs={crumb} menulevel="sub-menu" />
                 </li>
               )
             } else {
-              return <li>{crumb}</li>
+              return (
+                <li className="menu-item">
+                  <a className="menu-link" href={crumb}>{crumb}</a>
+                </li>
+              )
             }
           })
         }
