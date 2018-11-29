@@ -10,14 +10,20 @@ class Crumbs extends Component {
             if (typeof crumb === "object") {
               return (
                 <li className="menu-item">
-                  <a className="menu-link" href={crumb[0]}>{crumb[0]}</a>
+                  <a className="menu-link" href={`/${crumb[0]}`}>{crumb[0]}</a>
                   <Crumbs breadcrumbs={crumb} menulevel="sub-menu" />
+                </li>
+              )
+            } else if (crumb === "home") {
+              return (
+                <li className="menu-item">
+                  <a className="menu-link" href="/">{crumb}</a>
                 </li>
               )
             } else {
               return (
                 <li className="menu-item">
-                  <a className="menu-link" href={crumb}>{crumb}</a>
+                  <a className="menu-link" href={`/${crumb}`}>{crumb}</a>
                 </li>
               )
             }

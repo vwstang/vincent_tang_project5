@@ -3,13 +3,20 @@ $vpminw-tablet: 600px;
 $vpminw-desktop: 900px;
 $vpminw-lrgscrn: 1280px;
 
+$wrprtb-mobile: 20px;
+$wrprlr-mobile: 10px;
+$wrprtb-tablet: 25px;
+$wrprlr-tablet: 40px;
+
 $header-text: "Fira Sans", sans-serif;
 $body-text: "Merriweather", serif;
 
 $button-hover-transitions: border 0.2s, color 0.2s;
 
+/* Color Variables */
 :root {
-  --pg-title: #fff;
+  --pg-bg: whitesmoke;
+  --pg-title: var(--pg-bg);
   --link-hover: steelblue;
   --btn-hover: var(--link-hover);
 }
@@ -22,10 +29,12 @@ html {
 body {
   font-size: 1.4rem;
   font-family: $body-text;
+  background: whitesmoke;
 }
 
 main {
   flex-grow: 1;
+  width: 100%;
   min-height: 100%;
 }
 
@@ -53,7 +62,7 @@ button {
 }
 
 .wrapper {
-  padding: 20px 10px;
+  padding: $wrprtb-mobile $wrprlr-mobile;
 }
 
 @media (min-width: $vpminw-mdrnmbl) {
@@ -72,7 +81,7 @@ button {
   }
   
   .wrapper {
-    padding: 25px 40px;
+    padding: $wrprtb-tablet $wrprlr-tablet;
   }
 }
 
