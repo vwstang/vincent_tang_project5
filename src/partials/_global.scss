@@ -5,8 +5,8 @@ $vpminw-lrgscrn: 1280px;
 
 $wrprtb-mobile: 20px;
 $wrprlr-mobile: 10px;
-$wrprtb-tablet: 25px;
-$wrprlr-tablet: 40px;
+$wrprtb-desktop: 25px;
+$wrprlr-desktop: 40px;
 
 $header-text: "Fira Sans", sans-serif;
 $body-text: "Merriweather", serif;
@@ -81,7 +81,7 @@ button {
   }
   
   .wrapper {
-    padding: $wrprtb-tablet $wrprlr-tablet;
+    padding: $wrprtb-desktop $wrprlr-desktop;
   }
 }
 

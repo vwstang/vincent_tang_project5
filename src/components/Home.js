@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 /* Import Components */
 import Header from "./Header";
-import Blogs from "./Blogs";
 import Footer from "./Footer";
 
 // import logo from './logo.svg';

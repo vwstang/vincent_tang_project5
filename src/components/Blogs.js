@@ -15,9 +15,65 @@ const dbRefBlogs = firebase.database().ref("/blogs");
 class BlogList extends Component {
   openEditor = e => window.location.href = `/editor/${e.target.id}`;
 
+  drawList = () => {
+    if (this.props.blogDB) {
+      return (
+        Object.entries(this.props.blogDB).map(post => {
+          return (
+            <li key={post[0]} className="blog-list__item">
+              <span className="blog-list__item__info">
+                {post[1].title}
+              </span>
+              <span className="blog-list__item__info blog-list__item__info--snippet">
+                {post[1].draft.join(" ").slice(0, 100)}
+              </span>
+              <span className="blog-list__item__info">
+                {post[1].published ? "Published" : "Draft"}
+              </span>
+              <span className="blog-list__item__info blog-list__item__info--button">
+                <button
+                  id={post[0]}
+                  data-action="publish"
+                  className="blog-list__item__link"
+                  onClick={this.props.performAction}
+                >
+                  <FontAwesomeIcon icon="print" />
+                </button>
+              </span>
+              <span className="blog-list__item__info blog-list__item__info--button">
+                <button
+                  id={post[0]}
+                  className="blog-list__item__link"
+                  onClick={this.openEditor}
+                >
+                  <FontAwesomeIcon icon="edit" />
+                </button>
+              </span>
+              <span className="blog-list__item__info blog-list__item__info--button">
+                <button
+                  id={post[0]}
+                  data-action="delete"
+                  className="blog-list__item__link"
+                  onClick={this.props.performAction}
+                >
+                  <FontAwesomeIcon icon="trash-alt" />
+                </button>
+              </span>
+            </li>
+          )
+        })
+      )
+    }
+  }
+
   render() {
     return (
       <main className="wrapper">
+        <button
+          id="btn-new"
+          type="button"
+          onClick={this.props.createNew}
+        >New Post</button>
         <ul className="list-header">
           <li className="list-header__item">Title</li>
           <li className="list-header__item">Snippet</li>
@@ -27,54 +83,7 @@ class BlogList extends Component {
           <li className="list-header__item list-header__item--button">Delete</li>
         </ul>
         <ul className="blog-list">
-          {
-            this.props.blogDB ?
-              Object.entries(this.props.blogDB).map(post => {
-                return (
-                  <li key={post[0]} className="blog-list__item">
-                    <span className="blog-list__item__info">
-                      {post[1].title}
-                    </span>
-                    <span className="blog-list__item__info blog-list__item__info--snippet">
-                      {post[1].draft.join(" ").slice(0, 100)}
-                    </span>
-                    <span className="blog-list__item__info">
-                      {post[1].published ? "Published" : "Draft"}
-                    </span>
-                    <span className="blog-list__item__info blog-list__item__info--button">
-                      <button
-                        id={post[0]}
-                        data-action="publish"
-                        className="blog-list__item__link"
-                        onClick={this.props.performAction}
-                      >
-                        <FontAwesomeIcon icon="print" />
-                      </button>
-                    </span>
-                    <span className="blog-list__item__info blog-list__item__info--button">
-                      <button
-                        id={post[0]}
-                        className="blog-list__item__link"
-                        onClick={this.openEditor}
-                      >
-                        <FontAwesomeIcon icon="edit" />
-                      </button>
-                    </span>
-                    <span className="blog-list__item__info blog-list__item__info--button">
-                      <button
-                        id={post[0]}
-                        data-action="delete"
-                        className="blog-list__item__link"
-                        onClick={this.props.performAction}
-                      >
-                        <FontAwesomeIcon icon="trash-alt" />
-                      </button>
-                    </span>
-                  </li>  
-                )
-              }) :
-              console.log("No blogs exist")
-            }
+          { this.drawList() }
         </ul>
       </main>
     )
@@ -152,19 +161,13 @@ class Blogs extends Component {
     return (
       <div className="page">
         <Header
-          title={"Blogs"}
+          title={"Edit Blogs"}
           breadcrumbs={["top", "home", "blogs"]}
         />
-        <div className="wrapper">
-          <button
-            id="btn-new"
-            type="button"
-            onClick={this.createNew}
-          >New Post</button>
-        </div>
         <BlogList
           blogDB={this.state.blogDB}
           performAction={this.performAction}
+          createNew={this.createNew}
         />
         <Footer />
       </div>

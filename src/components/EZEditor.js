@@ -57,6 +57,7 @@ class Editor extends Component {
             >Save Draft</button>
           </form>
         </div>
+        <Footer />
       </div>
     )
   }

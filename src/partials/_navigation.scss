@@ -51,7 +51,9 @@ $menuitem-transitiontiming: 0.2s;
 }
 
 @media (min-width: $vpminw-desktop) {
-
+  .navigation {
+    padding: 0 $wrprlr-desktop;
+  }
 }
 
 @media (min-width: $vpminw-lrgscrn) {
