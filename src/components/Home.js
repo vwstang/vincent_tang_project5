@@ -22,12 +22,14 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="page">
         <Header breadcrumbs={this.state.breadcrumbs} />
-        <a href="blogs">Blogs</a>
-        {/* Recent Blog Posts */}
-        {/* Categories */}
-        {/* <Editor draft="test" /> */}
+        <main>
+          <a href="blogs">Blogs</a>
+          {/* Recent Blog Posts */}
+          {/* Categories */}
+          {/* <Editor draft="test" /> */}
+        </main>
         <Footer />
       </div>
     );
