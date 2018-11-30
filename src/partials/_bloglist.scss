@@ -24,6 +24,7 @@ $btn-count: 3;
 
   &__item {
     display: flex;
+    align-items: flex-start;
     margin-top: 10px;
     width: 100%;
     padding: 10px;
@@ -42,6 +43,15 @@ $btn-count: 3;
         justify-content: center;
         width: $btn-spacing / $btn-count;
         padding-right: 0;
+
+        & button {
+          border: none;
+
+          & > svg {
+            position: relative;
+            z-index: -1;
+          }
+        }
       }
 
       &--snippet {
@@ -54,6 +64,12 @@ $btn-count: 3;
 
     &__link {
       padding: 0 10px;
+      transition: $link-hover-transitions;
+
+      &:hover {
+        color: var(--link-hover);
+        transition: $link-hover-transitions;
+      }
     }
   }
 }

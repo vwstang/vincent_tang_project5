@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPrint, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 // Components
 import Header from "./Header";
-import Editor from "./EZEditor";
 import Footer from "./Footer";
 
 // Font Awesome
@@ -14,42 +13,7 @@ library.add(faPrint, faEdit, faTrashAlt);
 const dbRefBlogs = firebase.database().ref("/blogs");
 
 class BlogList extends Component {
-  drawList = listOfPosts => {
-    return Object.entries(listOfPosts).map(post => {
-      return (
-        <li className="blog-list__item">
-          <span className="blog-list__item__info">
-            {post[1].title}
-          </span>
-          <span className="blog-list__item__info blog-list__item__info--snippet">
-            {post[1].draft.join(" ").slice(0, 100)}
-          </span>
-          <span className="blog-list__item__info">
-            {post[1].published ? "Published" : "Draft"}
-          </span>
-          <span className="blog-list__item__info blog-list__item__info--button">
-            <a
-              className="blog-list__item__link"
-              href="#"
-            ><FontAwesomeIcon icon="print" /></a>
-          </span>
-          <span className="blog-list__item__info blog-list__item__info--button">
-            <a
-              className="blog-list__item__link"
-              href={`/editor/${post[0]}`}
-            ><FontAwesomeIcon icon="edit" /></a>
-          </span>
-          <span className="blog-list__item__info blog-list__item__info--button">
-            <a
-              className="blog-list__item__link"
-              href="#"
-              onClick={() => alert("You sure you want to delete this post?")}
-            ><FontAwesomeIcon icon="trash-alt" /></a>
-          </span>
-        </li>
-      )
-    })
-  }
+  openEditor = e => window.location.href = `/editor/${e.target.id}`;
 
   render() {
     return (
@@ -63,7 +27,52 @@ class BlogList extends Component {
           <li className="list-header__item list-header__item--button">Delete</li>
         </ul>
         <ul className="blog-list">
-          {this.props.blogDB ? this.drawList(this.props.blogDB) : console.log("No blogs exist")}
+          {
+            this.props.blogDB ?
+              Object.entries(this.props.blogDB).map(post => {
+                return (
+                  <li key={post[0]} className="blog-list__item">
+                    <span className="blog-list__item__info">
+                      {post[1].title}
+                    </span>
+                    <span className="blog-list__item__info blog-list__item__info--snippet">
+                      {post[1].draft.join(" ").slice(0, 100)}
+                    </span>
+                    <span className="blog-list__item__info">
+                      {post[1].published ? "Published" : "Draft"}
+                    </span>
+                    <span className="blog-list__item__info blog-list__item__info--button">
+                      <button
+                        id={post[0]}
+                        className="blog-list__item__link"
+                        onClick={this.props.updateStatus}
+                      >
+                        <FontAwesomeIcon icon="print" />
+                      </button>
+                    </span>
+                    <span className="blog-list__item__info blog-list__item__info--button">
+                      <button
+                        id={post[0]}
+                        className="blog-list__item__link"
+                        onClick={this.openEditor}
+                      >
+                        <FontAwesomeIcon icon="edit" />
+                      </button>
+                    </span>
+                    <span className="blog-list__item__info blog-list__item__info--button">
+                      <button
+                        id={post[0]}
+                        className="blog-list__item__link"
+                        onClick={this.props.deletePost}
+                      >
+                        <FontAwesomeIcon icon="trash-alt" />
+                      </button>
+                    </span>
+                  </li>  
+                )
+              }) :
+              console.log("No blogs exist")
+            }
         </ul>
       </main>
     )
@@ -89,48 +98,32 @@ class Blogs extends Component {
     dbRefBlogs.once("value").then(snapshot => {
       const snapValue = snapshot.val();
       if (snapValue) {
-        console.log("Truthy");
+        const postsList = Object.keys(snapshot.val());
+        postIDMax = Math.max(...postsList.map(postID => {
+          return parseInt(postID.slice(4));
+        }));
+        dbRefBlogs.child(`post${postIDMax + 1}`).set(initPost);
       } else {
         dbRefBlogs.child("post1").set(initPost);
       }
-      this.setState({
-        blogDB: snapValue
-      })
     });
+  }
 
+  updateStatus = e => {
+    const post = this.state.blogDB[e.target.id];
+    const dbPostPublished = dbRefBlogs.child(`${e.target.id}/published`);
+    const confirmMsg = post.published ? "unpublish" : "publish";
+    if (window.confirm(`Are you sure you would like to ${confirmMsg} the post "${post.title}"?`)) {
+      post.published ? dbPostPublished.set(false) : dbPostPublished.set(true);
+      alert(`"${post.title}" was ${confirmMsg}ed successfully.`);
+    } else {
+      alert(`"${post.title}" was not ${confirmMsg}ed.`);
+    }
+  }
 
-    // dbRefBlogs.on("value", snapshot => {
-    //   console.log("Snapshot");
-    //   console.log(snapshot.val());
-    //   if (snapshot.val() !== null) {
-    //     console.log("IT'S NOT EMPTY FAM I SWEAR")
-    //     const postsList = Object.keys(snapshot.val());
-    //     postIDMax = Math.max(...postsList.map(postID => {
-    //       return parseInt(postID.slice(4));
-    //     }));
-    //     console.log(postIDMax);
-    //     dbRefBlogs.child(`post${postIDMax + 1}`).set(initPost);
-    //   } else {
-    //     dbRefBlogs.child("post1").set(initPost);
-    //   }
-      // if (snapshot.val()) {
-      //   const postsList = Object.keys(snapshot.val());
-      //   postIDMax = Math.max(...postsList.map(postID => {
-      //     return parseInt(postID.slice(4));
-      //   }));
-      //   dbRefBlogs.child(`post${postIDMax + 1}`).set(initPost);
-      // } else {
-      //   dbRefBlogs.child("post1").set(initPost);
-      // }
-    // });
-    // dbRefBlogs.on("value", snapshot => {
-    //   console.log("I created");
-    //   this.setState({
-    //     blogDB: snapshot.val()
-    //   })
-    //   console.log("UPDATE THE STATE DAMNIT")
-    //   console.log(this.state.blogDB);
-    // });
+  deletePost = e => {
+    console.log(e.target);
+    
   }
   
   componentDidMount() {
@@ -144,8 +137,15 @@ class Blogs extends Component {
   render() {
     return (
       <div className="page">
-        <Header title={"Blogs"} breadcrumbs={["top", "home", "blogs"]} />
-        <BlogList blogDB={this.state.blogDB} />
+        <Header
+          title={"Blogs"}
+          breadcrumbs={["top", "home", "blogs"]}
+        />
+        <BlogList
+          blogDB={this.state.blogDB}
+          updateStatus={this.updateStatus}
+          deletePost={this.deletePost}
+        />
         <button
           id="btn-new"
           type="button"

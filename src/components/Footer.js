@@ -5,7 +5,7 @@ class Footer extends Component {
     return (
       <footer>
         <div className="wrapper">
-          <p>&copy; TANGible Codes 2018</p>
+          <a href="https://www.twitter.com/TANGibleCodes">&copy; TANGible Codes 2018</a>
         </div>
       </footer>
     )

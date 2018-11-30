@@ -11,6 +11,7 @@ $wrprlr-tablet: 40px;
 $header-text: "Fira Sans", sans-serif;
 $body-text: "Merriweather", serif;
 
+$link-hover-transitions: color 0.2s;
 $button-hover-transitions: border 0.2s, color 0.2s;
 
 /* Color Variables */
@@ -20,7 +21,6 @@ $button-hover-transitions: border 0.2s, color 0.2s;
   --link-hover: steelblue;
   --btn-hover: var(--link-hover);
 }
-
 
 html {
   font-size: 62.5%;
