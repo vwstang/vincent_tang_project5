@@ -44,8 +44,9 @@ class BlogList extends Component {
                     <span className="blog-list__item__info blog-list__item__info--button">
                       <button
                         id={post[0]}
+                        data-action="publish"
                         className="blog-list__item__link"
-                        onClick={this.props.updateStatus}
+                        onClick={this.props.performAction}
                       >
                         <FontAwesomeIcon icon="print" />
                       </button>
@@ -62,8 +63,9 @@ class BlogList extends Component {
                     <span className="blog-list__item__info blog-list__item__info--button">
                       <button
                         id={post[0]}
+                        data-action="delete"
                         className="blog-list__item__link"
-                        onClick={this.props.deletePost}
+                        onClick={this.props.performAction}
                       >
                         <FontAwesomeIcon icon="trash-alt" />
                       </button>
@@ -109,21 +111,33 @@ class Blogs extends Component {
     });
   }
 
-  updateStatus = e => {
-    const post = this.state.blogDB[e.target.id];
-    const dbPostPublished = dbRefBlogs.child(`${e.target.id}/published`);
-    const confirmMsg = post.published ? "unpublish" : "publish";
-    if (window.confirm(`Are you sure you would like to ${confirmMsg} the post "${post.title}"?`)) {
-      post.published ? dbPostPublished.set(false) : dbPostPublished.set(true);
-      alert(`"${post.title}" was ${confirmMsg}ed successfully.`);
-    } else {
-      alert(`"${post.title}" was not ${confirmMsg}ed.`);
+  performAction = e => {
+    const action = e.target.getAttribute("data-action");
+    const postID = e.target.id;
+    const post = this.state.blogDB[postID];
+    switch (action) {
+      case "publish":
+        const dbPostPublished = dbRefBlogs.child(`${postID}/published`);
+        const confirmMsg = post.published ? "unpublish" : "publish";
+        if (window.confirm(`Are you sure you would like to ${confirmMsg} the post "${post.title}"?`)) {
+          post.published ? dbPostPublished.set(false) : dbPostPublished.set(true);
+          alert(`"${post.title}" was ${confirmMsg}ed successfully.`);
+        } else {
+          alert(`"${post.title}" was not ${confirmMsg}ed.`);
+        }
+        break;
+      case "delete":
+        if (window.confirm(`Are you sure you would like to delete the post "${post.title}"? (This action cannot be undone.)`)) {
+          dbRefBlogs.child(`${postID}`).remove();
+          alert(`"${post.title}" was deleted.`);
+        } else {
+          alert(`"${post.title}" was not deleted.`);
+        }
+        break;
+      default:
+        alert("How did you get to here???");
+        break;  
     }
-  }
-
-  deletePost = e => {
-    console.log(e.target);
-    
   }
   
   componentDidMount() {
@@ -141,16 +155,17 @@ class Blogs extends Component {
           title={"Blogs"}
           breadcrumbs={["top", "home", "blogs"]}
         />
+        <div className="wrapper">
+          <button
+            id="btn-new"
+            type="button"
+            onClick={this.createNew}
+          >New Post</button>
+        </div>
         <BlogList
           blogDB={this.state.blogDB}
-          updateStatus={this.updateStatus}
-          deletePost={this.deletePost}
+          performAction={this.performAction}
         />
-        <button
-          id="btn-new"
-          type="button"
-          onClick={this.createNew}
-        >New</button>
         <Footer />
       </div>
     )
