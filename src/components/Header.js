@@ -6,7 +6,7 @@ class Header extends Component {
     return (
       <header className="hero-banner">
         <Nav breadcrumbs={this.props.breadcrumbs} />
-        <div className="banner-image">
+        <div className={`banner-image banner-image--${this.props.banner}`}>
           <div className="title-container wrapper">
             <h1 className="title">{this.props.title}</h1>
           </div>

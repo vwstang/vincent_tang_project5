@@ -13,8 +13,22 @@ $title-offset: 8 * -0.8;
   & .banner-image {
     display: flex;
     align-items: flex-end;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1600px;
     height: 100%;
-    background: url(https://source.unsplash.com/random) center center / cover no-repeat;
+
+    &--home {
+      background: url(./assets/home.jpg) left center / cover no-repeat;
+    }
+
+    &--blogs {
+      background: url(./assets/blogs.jpg) center 20% / cover no-repeat;
+    }
+
+    &--editblogs {
+      background: url(./assets/editblogs.jpg) left 90% / cover no-repeat;
+    }
 
     & .title-container {
       width: 100%;

@@ -37,6 +37,7 @@ class Editor extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
+    db.ref(`/blogs/${this.props.match.params.postID}/title`).set(this.state.currTitle);
     db.ref(`/blogs/${this.props.match.params.postID}/draft`).set(this.state.currDraft);
   }
 

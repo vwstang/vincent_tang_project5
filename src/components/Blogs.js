@@ -1,94 +1,25 @@
 import React, { Component } from "react";
 import firebase from "../data/firebase";
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPrint, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 // Components
 import Header from "./Header";
 import Footer from "./Footer";
 
-// Font Awesome
-library.add(faPrint, faEdit, faTrashAlt);
 
 const dbRefBlogs = firebase.database().ref("/blogs");
 
-class BlogList extends Component {
-  openEditor = e => window.location.href = `/editor/${e.target.id}`;
 
-  drawList = () => {
-    if (this.props.blogDB) {
-      return (
-        Object.entries(this.props.blogDB).map(post => {
-          return (
-            <li key={post[0]} className="blog-list__item">
-              <span className="blog-list__item__info">
-                {post[1].title}
-              </span>
-              <span className="blog-list__item__info blog-list__item__info--snippet">
-                {post[1].draft.join(" ").slice(0, 100)}
-              </span>
-              <span className="blog-list__item__info">
-                {post[1].published ? "Published" : "Draft"}
-              </span>
-              <span className="blog-list__item__info blog-list__item__info--button">
-                <button
-                  id={post[0]}
-                  data-action="publish"
-                  className="blog-list__item__link"
-                  onClick={this.props.performAction}
-                >
-                  <FontAwesomeIcon icon="print" />
-                </button>
-              </span>
-              <span className="blog-list__item__info blog-list__item__info--button">
-                <button
-                  id={post[0]}
-                  className="blog-list__item__link"
-                  onClick={this.openEditor}
-                >
-                  <FontAwesomeIcon icon="edit" />
-                </button>
-              </span>
-              <span className="blog-list__item__info blog-list__item__info--button">
-                <button
-                  id={post[0]}
-                  data-action="delete"
-                  className="blog-list__item__link"
-                  onClick={this.props.performAction}
-                >
-                  <FontAwesomeIcon icon="trash-alt" />
-                </button>
-              </span>
-            </li>
-          )
-        })
-      )
-    }
-  }
-
+class BlogCards extends Component {
   render() {
     return (
-      <main className="wrapper">
-        <button
-          id="btn-new"
-          type="button"
-          onClick={this.props.createNew}
-        >New Post</button>
-        <ul className="list-header">
-          <li className="list-header__item">Title</li>
-          <li className="list-header__item">Snippet</li>
-          <li className="list-header__item">Status</li>
-          <li className="list-header__item list-header__item--button">Publish</li>
-          <li className="list-header__item list-header__item--button">Edit</li>
-          <li className="list-header__item list-header__item--button">Delete</li>
-        </ul>
-        <ul className="blog-list">
-          { this.drawList() }
-        </ul>
-      </main>
+      <li className="blog-card">
+        <a href={`/post/${this.props.postID}`}>
+          {this.props.postTitle}
+        </a>
+      </li>
     )
   }
 }
+
 
 class Blogs extends Component {
   constructor() {
@@ -98,62 +29,16 @@ class Blogs extends Component {
     }
   }
 
-  createNew = () => {
-    let postIDMax = 0;
-    const initPost = {
-      title: "New Blog Post",
-      published: false,
-      draft: [""]
-    }
-
-    dbRefBlogs.once("value").then(snapshot => {
-      const snapValue = snapshot.val();
-      if (snapValue) {
-        const postsList = Object.keys(snapshot.val());
-        postIDMax = Math.max(...postsList.map(postID => {
-          return parseInt(postID.slice(4));
-        }));
-        dbRefBlogs.child(`post${postIDMax + 1}`).set(initPost);
-      } else {
-        dbRefBlogs.child("post1").set(initPost);
-      }
-    });
+  navTo = e => {
+    window.location.href = e.target.getAttribute("data-href");
   }
 
-  performAction = e => {
-    const action = e.target.getAttribute("data-action");
-    const postID = e.target.id;
-    const post = this.state.blogDB[postID];
-    switch (action) {
-      case "publish":
-        const dbPostPublished = dbRefBlogs.child(`${postID}/published`);
-        const confirmMsg = post.published ? "unpublish" : "publish";
-        if (window.confirm(`Are you sure you would like to ${confirmMsg} the post "${post.title}"?`)) {
-          post.published ? dbPostPublished.set(false) : dbPostPublished.set(true);
-          alert(`"${post.title}" was ${confirmMsg}ed successfully.`);
-        } else {
-          alert(`"${post.title}" was not ${confirmMsg}ed.`);
-        }
-        break;
-      case "delete":
-        if (window.confirm(`Are you sure you would like to delete the post "${post.title}"? (This action cannot be undone.)`)) {
-          dbRefBlogs.child(`${postID}`).remove();
-          alert(`"${post.title}" was deleted.`);
-        } else {
-          alert(`"${post.title}" was not deleted.`);
-        }
-        break;
-      default:
-        alert("How did you get to here???");
-        break;  
-    }
-  }
-  
   componentDidMount() {
     dbRefBlogs.on("value", snapshot => {
+      console.log(snapshot.val());
       this.setState({
         blogDB: snapshot.val()
-      })
+      });
     });
   }
 
@@ -161,14 +46,36 @@ class Blogs extends Component {
     return (
       <div className="page">
         <Header
-          title={"Edit Blogs"}
+          title="Blogs"
+          banner="blogs"
           breadcrumbs={["top", "home", "blogs"]}
         />
-        <BlogList
-          blogDB={this.state.blogDB}
-          performAction={this.performAction}
-          createNew={this.createNew}
-        />
+        <main className="wrapper">
+          <button
+            id="btn-new"
+            type="button"
+            data-href="/editblogs"
+            onClick={this.navTo}
+          >Edit Blogs</button>
+          <div className="card-container">
+            <ul className="blog-cards">
+              {
+                Object.entries(this.state.blogDB)
+                  .filter(post => {
+                    return post[1].published === true
+                  })
+                  .map(post => {
+                  return (
+                    <BlogCards
+                      postID={post[0]}
+                      postTitle={post[1].title}
+                    />
+                  )
+                })
+              }
+            </ul>
+          </div>
+        </main>
         <Footer />
       </div>
     )
