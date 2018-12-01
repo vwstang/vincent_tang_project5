@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import firebase from "../data/firebase";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPrint, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faPrint, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 // Components
 import Header from "./Header";
 import Footer from "./Footer";

@@ -37,7 +37,7 @@ class Crumbs extends Component {
 class Nav extends Component {
   render() {
     return (
-      <nav className="navigation">
+      <nav className="navigation wrapper">
         <Crumbs breadcrumbs={this.props.breadcrumbs} menulevel="top-menu" />
       </nav>
     )

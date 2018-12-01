@@ -1,5 +1,6 @@
 .navigation {
-  padding: 0 $wrprlr-mobile;
+  width: 100%;
+  padding: $wrprlr-mobile;
 }
 
 .top-menu {
@@ -17,28 +18,33 @@
 }
 
 
-$menuitem-transitiontiming: 0.2s;
+$menuitem-hovertransition: background 0.2s;
 
 .menu-item {
+  position: relative;
   margin: 5px;
-  border-bottom: 2px solid var(--pg-bg);
   padding: 5px 0;
-  transition: border $menuitem-transitiontiming;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 3px;
+    background: var(--hdrftr-bg);
+    transition: $menuitem-hovertransition;
+  }
   
-  &:hover {
-    border-bottom: 2px solid var(--link-hover);
-    transition: border $menuitem-transitiontiming;
-    
-    & > a {
-      color: var(--link-hover);
-      transition: color $menuitem-transitiontiming;
-    }
+  &:hover::after {
+    background: var(--link-hover);
+    transition: $menuitem-hovertransition;
   }
   
   & .menu-link {
     padding: 5px 10px;
+    color: var(--nav-text);
     text-transform: capitalize;
-    transition: color $menuitem-transitiontiming;
   }
 }
 
@@ -52,7 +58,7 @@ $menuitem-transitiontiming: 0.2s;
 
 @media (min-width: $vpminw-desktop) {
   .navigation {
-    padding: 0 $wrprlr-desktop;
+    padding: 15px $wrprlr-desktop;
   }
 }
 

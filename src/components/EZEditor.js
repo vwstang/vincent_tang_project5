@@ -17,9 +17,21 @@ class Editor extends Component {
   }
 
   updateDraft = e => {
-    this.setState({
-      [e.target.id]: e.target.value.split("\n")
-    })
+    switch (e.target.id) {
+      case "currTitle":
+        this.setState({
+          [e.target.id]: e.target.value
+        })
+        break;
+      case "currDraft":
+        this.setState({
+          [e.target.id]: e.target.value.split("\n")
+        })
+        break;
+      default:
+        console.log("This code should not be run.");
+        break;
+    }
   }
 
   handleSubmit = e => {
@@ -31,19 +43,38 @@ class Editor extends Component {
   componentDidMount() {
     db.ref("/blogs").on("value", snapshot => {
       const blogDB = snapshot.val();
+      if (blogDB[this.props.match.params.postID].title === "") {
+        blogDB[this.props.match.params.postID].title = "New Blog Post";
+      }
       this.setState({
         currTitle: blogDB[this.props.match.params.postID].title,
         currDraft: blogDB[this.props.match.params.postID].draft
       })
     });
+    // Add auto save timer
+  }
+
+  componentWillUnmount() {
+    // Auto save timer to close
   }
 
   render() {
     return (
       <div className="page">
         <Header title={this.state.currTitle} breadcrumbs={["top", "home", "blogs"]} />
-        <div className="editor wrapper">
+        <main className="editor wrapper">
           <form onSubmit={this.handleSubmit} action="">
+            <label
+              className="draft-title draft-title--label"
+              htmlFor="draftTitle"
+            >Blog Title</label>
+            <input
+              id="currTitle"
+              className="draft-title"
+              type="text"
+              value={this.state.currTitle}
+              onChange={this.updateDraft}
+            />
             <textarea
               id="currDraft"
               className="draft-editor"
@@ -56,7 +87,7 @@ class Editor extends Component {
               type="submit"
             >Save Draft</button>
           </form>
-        </div>
+        </main>
         <Footer />
       </div>
     )
