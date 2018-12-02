@@ -18,7 +18,11 @@ class Post extends Component {
 
   componentDidMount() {
     db.ref(`blogs/${this.props.match.params.postID}`).on("value", snapshot => {
-      console.log(snapshot.val());
+      const blogDB = snapshot.val();
+      this.setState({
+        currTitle: blogDB.title,
+        currDraft: blogDB.draft
+      });
     });
   }
 
@@ -27,7 +31,16 @@ class Post extends Component {
       <div className="page">
         <Header title={this.state.currTitle} breadcrumbs={["top", "home", "blogs"]} />
         <main className="post wrapper">
-          
+          {
+            this.state.currDraft.map((paragraph, i) => {
+              return (
+                <p
+                  key={`${this.props.match.params.postID}-${i}`}
+                  className="post-text"
+                >{paragraph}</p>
+              )
+            })
+          }
         </main>
         <Footer />
       </div>
