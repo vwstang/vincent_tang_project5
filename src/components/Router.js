@@ -16,8 +16,6 @@ const Router = () => {
         <Route path="/post/:postID" component={Post} />
         <Route path="/editblogs" component={EditBlogs} />
         <Route path="/editor/:postID" component={Editor} />
-        {/* <Route path="/blogs/editor/:postID" component={Editor} />
-        <Route path="/blogs/post/:postID" component={Post} /> */}
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
