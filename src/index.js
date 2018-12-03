@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import "./main.scss";
+import "./main.scss?v=1.0.0";
 
 // Components
 import Router from "./components/Router";
