@@ -59,6 +59,10 @@ $btn-count: 3;
         & button {
           border: none;
 
+          &:hover {
+            border: none;
+          }
+
           & > svg {
             position: relative;
             z-index: -1;

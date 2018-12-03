@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import firebase from "../data/firebase";
+import swal from "sweetalert";
 
 // Components
 import Header from "./Header";
@@ -39,6 +40,11 @@ class Editor extends Component {
 
     db.ref(`/blogs/${this.props.match.params.postID}/title`).set(this.state.currTitle);
     db.ref(`/blogs/${this.props.match.params.postID}/draft`).set(this.state.currDraft);
+
+    swal({
+      icon: "success",
+      text: "Draft saved"
+    });
   }
 
   componentDidMount() {
@@ -84,7 +90,7 @@ class Editor extends Component {
               onChange={this.updateDraft}
             ></textarea>
             <button
-              className="btn-save"
+              className="btn btn-save"
               type="submit"
             >Save Draft</button>
           </form>

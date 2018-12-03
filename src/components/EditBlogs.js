@@ -34,7 +34,7 @@ class BlogList extends Component {
                 <button
                   id={post[0]}
                   data-action="publish"
-                  className="blog-list__item__link"
+                  className="btn blog-list__item__link"
                   onClick={this.props.performAction}
                 >
                   <FontAwesomeIcon icon="print" />
@@ -43,7 +43,7 @@ class BlogList extends Component {
               <span className="blog-list__item__info blog-list__item__info--button">
                 <button
                   id={post[0]}
-                  className="blog-list__item__link"
+                  className="btn blog-list__item__link"
                   onClick={this.openEditor}
                 >
                   <FontAwesomeIcon icon="edit" />
@@ -53,7 +53,7 @@ class BlogList extends Component {
                 <button
                   id={post[0]}
                   data-action="delete"
-                  className="blog-list__item__link"
+                  className="btn blog-list__item__link"
                   onClick={this.props.performAction}
                 >
                   <FontAwesomeIcon icon="trash-alt" />
@@ -72,6 +72,7 @@ class BlogList extends Component {
         <button
           id="btn-new"
           type="button"
+          className="btn"
           onClick={this.props.createNew}
         >New Post</button>
         <ul className="list-header">

@@ -54,6 +54,7 @@ class Blogs extends Component {
           <button
             id="btn-new"
             type="button"
+            className="btn"
             data-href="/editblogs"
             onClick={this.navTo}
           >Edit Blogs</button>
