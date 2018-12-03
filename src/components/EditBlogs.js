@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import firebase from "../data/firebase";
+import swal from "sweetalert";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPrint, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
@@ -118,6 +119,10 @@ class EditBlogs extends Component {
       } else {
         dbRefBlogs.child("post1").set(initPost);
       }
+      swal({
+        text: "New blog post was created.",
+        icon: "success"
+      })
     });
   }
 
@@ -129,20 +134,45 @@ class EditBlogs extends Component {
       case "publish":
         const dbPostPublished = dbRefBlogs.child(`${postID}/published`);
         const confirmMsg = post.published ? "unpublish" : "publish";
-        if (window.confirm(`Are you sure you would like to ${confirmMsg} the post "${post.title}"?`)) {
-          post.published ? dbPostPublished.set(false) : dbPostPublished.set(true);
-          alert(`"${post.title}" was ${confirmMsg}ed successfully.`);
-        } else {
-          alert(`"${post.title}" was not ${confirmMsg}ed.`);
-        }
+
+        swal({
+          text: `Are you sure you would like to ${confirmMsg} the post "${post.title}"?`,
+          buttons: [true, `${confirmMsg}`],
+          icon: "warning"
+        }).then(res => {
+          if (res) {
+            post.published ? dbPostPublished.set(false) : dbPostPublished.set(true);
+            swal({
+              text: `"${post.title}" was ${confirmMsg}ed successfully.`,
+              icon: "success"
+            });
+          } else {
+            swal({
+              text: `"${post.title}" was not ${confirmMsg}ed.`,
+              icon: "info"
+            });
+          }
+        });
         break;
       case "delete":
-        if (window.confirm(`Are you sure you would like to delete the post "${post.title}"? (This action cannot be undone.)`)) {
-          dbRefBlogs.child(`${postID}`).remove();
-          alert(`"${post.title}" was deleted.`);
-        } else {
-          alert(`"${post.title}" was not deleted.`);
-        }
+        swal({
+          text: `Are you sure you would like to delete the post "${post.title}"? (This action cannot be undone)`,
+          buttons: [true, "Delete"],
+          icon: "warning"
+        }).then(res => {
+          if (res) {
+            dbRefBlogs.child(`${postID}`).remove();
+            swal({
+              text: `"${post.title}" was deleted.`,
+              icon: "success"
+            })
+          } else {
+            swal({
+              text: `"${post.title}" was not deleted.`,
+              icon: "info"
+            })
+          }
+        });
         break;
       default:
         alert("How did you get to here???");

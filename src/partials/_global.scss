@@ -71,6 +71,10 @@ p {
   padding: $wrprtb-mobile $wrprlr-mobile;
 }
 
+.swal-button {
+  text-transform: capitalize;
+}
+
 @media (min-width: $vpminw-mdrnmbl) {
 
 }

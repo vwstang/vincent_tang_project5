@@ -43,7 +43,8 @@ class Editor extends Component {
 
     swal({
       icon: "success",
-      text: "Draft saved"
+      text: "Draft saved",
+      button: "Thanks!"
     });
   }
 
