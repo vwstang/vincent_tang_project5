@@ -76,7 +76,7 @@ class BlogList extends Component {
         >New Post</button>
         <ul className="list-header">
           <li className="list-header__item">Title</li>
-          <li className="list-header__item">Snippet</li>
+          <li className="list-header__item list-header__item--snippet">Snippet</li>
           <li className="list-header__item">Status</li>
           <li className="list-header__item list-header__item--button">Publish</li>
           <li className="list-header__item list-header__item--button">Edit</li>

@@ -4,9 +4,9 @@ $vpminw-desktop: 900px;
 $vpminw-lrgscrn: 1280px;
 
 $wrprtb-mobile: 20px;
-$wrprlr-mobile: 10px;
+$wrprlr-mobile: 5%;
 $wrprtb-desktop: 25px;
-$wrprlr-desktop: 40px;
+$wrprlr-desktop: 10%;
 
 $header-text: "Fira Sans", sans-serif;
 $body-text: "Merriweather", serif;
@@ -62,6 +62,7 @@ button {
 .page {
   display: flex;
   flex-direction: column;
+  min-width: 320px;
   max-width: 1600px;
   min-height: 100vh;
 }

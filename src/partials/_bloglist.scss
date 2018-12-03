@@ -1,20 +1,28 @@
-$info-spacing: 75%;
-$btn-spacing: 25%;
-$info-count: 3;
+$info-spacing-mobile: 55%;
+$btn-spacing-mobile: 45%;
+$info-spacing-tablet: 70%;
+$btn-spacing-tablet: 30%;
+$info-count-mobile: 2;
+$info-count-tablet: 3;
 $btn-count: 3;
 
 .list-header {
   display: flex;
-  padding: 10px;
   margin-top: 15px;
+  width: 100%;
+  padding: 10px;
 
   &__item {
-    width: $info-spacing / $info-count;
+    width: $info-spacing-mobile / $info-count-mobile;
+
+    &--snippet {
+      display: none;
+    }
 
     &--button {
       display: flex;
       justify-content: center;
-      width: $btn-spacing / $btn-count;
+      width: $btn-spacing-mobile / $btn-count;
     }
   }
 }
@@ -36,13 +44,16 @@ $btn-count: 3;
     }
 
     &__info {
-      width: $info-spacing / $info-count;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: $info-spacing-mobile / $info-count-mobile;
       padding-right: 15px;
 
       &--button {
         display: flex;
         justify-content: center;
-        width: $btn-spacing / $btn-count;
+        width: $btn-spacing-mobile / $btn-count;
         padding-right: 0;
 
         & button {
@@ -56,10 +67,7 @@ $btn-count: 3;
       }
 
       &--snippet {
-        display: flex;
-        align-items: center;
-        font-size: 0.8em;
-        color: gray;
+        display: none;
       }
     }
 
@@ -70,6 +78,44 @@ $btn-count: 3;
       &:hover {
         color: var(--link-hover);
         transition: $link-hover-transitions;
+      }
+    }
+  }
+}
+
+@media (min-width: $vpminw-tablet) {
+  .list-header {
+
+    &__item {
+      width: $info-spacing-tablet / $info-count-tablet;
+      
+      &--snippet {
+        display: flex;
+      }
+
+      &--button {
+        width: $btn-spacing-tablet / $btn-count;
+      }
+    }
+  }
+  
+  .blog-list {
+
+    &__item {
+
+      &__info {
+        width: $info-spacing-tablet / $info-count-tablet;
+
+        &--snippet {
+          display: flex;
+          align-items: center;
+          font-size: 0.8em;
+          color: gray;
+        }
+
+        &--button {
+        width: $btn-spacing-tablet / $btn-count;
+      }
       }
     }
   }

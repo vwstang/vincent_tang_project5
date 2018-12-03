@@ -67,6 +67,7 @@ class Blogs extends Component {
                   .map(post => {
                   return (
                     <BlogCards
+                      key={post[0]}
                       postID={post[0]}
                       postTitle={post[1].title}
                     />
