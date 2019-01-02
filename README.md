@@ -10,6 +10,8 @@ Users are currently able to create new blogs, edit its content, publish or unpub
 - Discover page to see other people's published posts
 - "Like Blog" feature
 
+
+
 * * *
 
 #### Created by Vincent Tang
