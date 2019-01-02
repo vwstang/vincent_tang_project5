@@ -35,7 +35,6 @@ class Blogs extends Component {
 
   componentDidMount() {
     dbRefBlogs.on("value", snapshot => {
-      console.log(snapshot.val());
       this.setState({
         blogDB: snapshot.val()
       });

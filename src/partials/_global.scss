@@ -32,7 +32,7 @@ html {
 body {
   font-size: 1.4rem;
   font-family: $body-text;
-  background: whitesmoke;
+  background: var(--pg-bg);
 }
 
 main {
@@ -96,6 +96,11 @@ p {
 }
 
 @media (min-width: $vpminw-lrgscrn) {
+  .page {
+    margin: 0 auto;
+    border: 1px solid #2c2c2c;
+  }
+  
   .wrapper {
     max-width: $vpminw-lrgscrn;
     margin: 0 auto;
